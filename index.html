@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#123a67">
+  <title>SCAIA — Controle de Atividades</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <section class="login-screen" id="loginScreen">
+    <div class="login-brand"><div class="login-logo">S</div><strong>SCAIA</strong><span>Sistema de Controle de Atividades Inadimplentes</span></div>
+    <div class="login-card">
+      <div class="login-welcome"><p class="eyebrow">ÁREA DO PROFESSOR</p><h1 id="loginTitle">Bem-vindo de volta</h1><p id="loginSubtitle">Entre para acessar suas turmas e atividades.</p></div>
+      <form id="loginForm">
+        <label>Professor<select id="loginTeacher" required></select></label>
+        <label>Senha<div class="password-field"><input type="password" id="loginPassword" required placeholder="Digite sua senha"><button type="button" class="show-password" data-target="loginPassword" aria-label="Mostrar senha">◉</button></div></label>
+        <p class="login-error hidden" id="loginError">Professor ou senha incorretos.</p>
+        <button class="btn btn-primary btn-full" type="submit">Entrar no SCAIA →</button>
+        <button class="btn btn-link btn-full" type="button" id="showRegister">＋ Cadastrar novo professor</button>
+      </form>
+      <form id="registerForm" class="hidden">
+        <label>Nome do professor<input id="registerName" required maxlength="60" placeholder="Ex.: Professora Maria"></label>
+        <label>Senha fácil <small>Use pelo menos 4 caracteres.</small><div class="password-field"><input type="password" id="registerPassword" required minlength="4" maxlength="30" placeholder="Ex.: 1234"><button type="button" class="show-password" data-target="registerPassword" aria-label="Mostrar senha">◉</button></div></label>
+        <label>Confirmar senha<input type="password" id="registerConfirm" required minlength="4" maxlength="30" placeholder="Repita a senha"></label>
+        <p class="login-error hidden" id="registerError"></p>
+        <button class="btn btn-primary btn-full" type="submit">Criar conta e entrar</button>
+        <button class="btn btn-link btn-full" type="button" id="backToLogin">← Voltar para o login</button>
+      </form>
+      <div class="demo-access" id="demoAccess"><span>CONTAS DISPONÍVEIS</span><p>João Vitor <strong>• joao123</strong></p><p>Dani <strong>• dani123</strong></p></div>
+    </div>
+    <p class="login-footer">Seus dados ficam salvos neste navegador.</p>
+  </section>
+
+  <div id="appShell" class="hidden">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">S</div>
+      <div><strong>SCAIA</strong><span>Sistema de Controle de Atividades Inadimplentes</span></div>
+    </div>
+    <div class="topbar-right"><nav aria-label="Navegação principal"><a href="#painel">Painel</a><a href="#cadastro">Cadastro</a><a href="#acompanhamento">Acompanhamento</a></nav>
+      <div class="user-chip"><span class="user-avatar" id="userAvatar">PA</span><div><small>Você está usando</small><strong id="loggedUserName">Professor</strong></div><button id="logoutButton" title="Sair ou trocar professor" aria-label="Sair">↪</button></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="painel">
+      <div><p class="eyebrow">PAINEL DO PROFESSOR</p><h1>Acompanhamento de atividades</h1><p>Organize entregas, identifique pendências e acompanhe cada aluno em um só lugar.</p></div>
+      <button class="btn btn-light" id="heroAdd">＋ Novo registro</button>
+    </section>
+
+    <section class="stats" aria-label="Resumo dos registros">
+      <article class="stat"><span class="stat-icon blue">♟</span><div><small>Alunos cadastrados</small><strong id="totalStudents">0</strong></div></article>
+      <article class="stat"><span class="stat-icon amber">◷</span><div><small>Atividades pendentes</small><strong id="totalPending">0</strong></div></article>
+      <article class="stat"><span class="stat-icon red">!</span><div><small>Atividades atrasadas</small><strong id="totalLate">0</strong></div></article>
+      <article class="stat"><span class="stat-icon green">✓</span><div><small>Atividades entregues</small><strong id="totalDelivered">0</strong></div></article>
+      <article class="stat"><span class="stat-icon slate">×</span><div><small>Não realizadas</small><strong id="totalNotDone">0</strong></div></article>
+    </section>
+
+    <section class="panel form-panel" id="cadastro">
+      <div class="section-heading"><div><p class="eyebrow">NOVO ACOMPANHAMENTO</p><h2 id="formTitle">Cadastrar aluno e atividade</h2></div><button class="icon-button" id="collapseForm" title="Recolher formulário" aria-label="Recolher formulário">⌃</button></div>
+      <form id="studentForm">
+        <input type="hidden" id="recordId">
+        <div class="form-grid">
+          <label class="span-2">Nome do aluno <span>*</span><input id="studentName" required maxlength="100" placeholder="Ex.: Mariana Oliveira"></label>
+          <label>Turma <span>*</span><input id="className" required maxlength="30" placeholder="Ex.: A"></label>
+          <label>Série / ano <span>*</span><input id="grade" required maxlength="30" placeholder="Ex.: 8º ano"></label>
+          <label>Disciplina <span>*</span><input id="subject" required maxlength="60" placeholder="Ex.: Matemática"></label>
+          <label class="span-2">Nome da atividade <span>*</span><input id="activity" required maxlength="120" placeholder="Ex.: Lista de exercícios — Frações"></label>
+          <label>Data de entrega <span>*</span><input type="date" id="dueDate" required></label>
+          <label>Status <span>*</span><select id="status" required><option value="Pendente">Pendente</option><option value="Entregue">Entregue</option><option value="Atrasada">Atrasada</option><option value="Não realizada">Não realizada</option></select></label>
+          <label class="span-all">Observações do professor<textarea id="notes" rows="3" maxlength="500" placeholder="Adicione orientações ou informações relevantes..."></textarea></label>
+        </div>
+        <div class="form-actions"><button type="button" class="btn btn-ghost hidden" id="cancelEdit">Cancelar edição</button><button type="submit" class="btn btn-primary" id="saveButton">＋ Cadastrar registro</button></div>
+      </form>
+    </section>
+
+    <section id="acompanhamento">
+      <div class="section-heading list-heading"><div><p class="eyebrow">REGISTROS</p><h2>Acompanhamento dos alunos</h2><p id="resultSummary">0 registros encontrados</p></div><button class="btn btn-outline" id="reportButton">▤ Gerar relatório</button></div>
+      <div class="panel filters">
+        <label class="search-label">Buscar aluno<div class="search-box"><span>⌕</span><input id="search" placeholder="Digite o nome do aluno..."></div></label>
+        <label>Turma<select id="filterClass"><option value="">Todas as turmas</option></select></label>
+        <label>Disciplina<select id="filterSubject"><option value="">Todas as disciplinas</option></select></label>
+        <label>Status<select id="filterStatus"><option value="">Todos os status</option><option>Pendente</option><option>Entregue</option><option>Atrasada</option><option>Não realizada</option></select></label>
+        <button class="btn btn-filter" id="applyFilters">Filtrar</button><button class="btn btn-link" id="clearFilters">Limpar filtros</button>
+      </div>
+      <div class="panel table-panel">
+        <div class="table-scroll"><table><thead><tr><th>Aluno</th><th>Turma / série</th><th>Disciplina</th><th>Atividade</th><th>Entrega</th><th>Status</th><th class="actions-col">Ações</th></tr></thead><tbody id="recordsBody"></tbody></table></div>
+        <div class="empty-state hidden" id="emptyState"><div>⌕</div><h3>Nenhum registro encontrado</h3><p>Cadastre uma atividade ou ajuste os filtros da busca.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <div class="modal-backdrop hidden" id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+    <div class="modal confirm-box"><div class="danger-symbol">!</div><h2 id="confirmTitle">Excluir registro?</h2><p>Esta ação removerá o acompanhamento de <strong id="deleteName"></strong> e não poderá ser desfeita.</p><div class="modal-actions"><button class="btn btn-ghost" id="cancelDelete">Cancelar</button><button class="btn btn-danger" id="confirmDelete">Excluir registro</button></div></div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="reportModal" role="dialog" aria-modal="true" aria-labelledby="reportTitle">
+    <div class="modal report-modal"><div class="report-toolbar no-print"><div><p class="eyebrow">RELATÓRIO</p><h2 id="reportTitle">Alunos inadimplentes</h2></div><div><button class="btn btn-ghost" id="closeReport">Fechar</button><button class="btn btn-primary" id="printReport">⎙ Imprimir / Salvar PDF</button></div></div><div id="reportContent"></div></div>
+  </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
